@@ -1,3 +1,21 @@
+<?php
+$result = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(isset($_POST['text']) && isset($_POST['search']) && isset($_POST['replace'])) {
+        $text = $_POST["text"];
+        $search = $_POST["search"];
+        $replace = $_POST["replace"];
+        $result = str_replace($search, $replace, $text);
+    } elseif(isset($_POST['cities'])) {
+        $input_cities = $_POST["cities"];
+        $cities_array = explode(" ", $input_cities);
+        sort($cities_array);
+        $sorted_cities = implode(" ", $cities_array);
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,16 +25,9 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<?php
-$result = "";
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $text = $_POST["text"];
-    $search = $_POST["search"];
-    $replace = $_POST["replace"];
-    $result = str_replace($search, $replace, $text);
-}
-?>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+
+<!-- Task11 -->
+<form action="" method="post">
     <div>
         <label for="text">Текст:</label><br>
         <input type="text" id="text" name="text"><br><br>
@@ -30,15 +41,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" id="replace" name="replace"><br><br>
     </div>
     <div>
-        <label for="result">Результат заміни:</label><br>
-        <input type="text" id="result" name="result" readonly><br><br>
-    </div>
+        <div></div>
+    <?php
+echo "<div class='res_task1'>Результат заміни: $result</div>";
+?>
+
     <input type="submit" value="Виконати заміну">
 </form>
 
-<?php
-    echo "Результат заміни: " . $result;
-?>
+<!-- task12 -->
+<h2>Введіть назви міст, розділені пробілами:</h2>
+<form action="" method="post">
+    <input type="text" name="cities" placeholder="Введіть назви міст через пробіл">
+    <button type="submit">Сортувати</button>
+    <?php
+    echo "<h2>Відсортовані назви міст:</h2>";
+        echo "<p>$sorted_cities</p>";
+        ?>
+</form>
+
 
 </body>
 </html>
